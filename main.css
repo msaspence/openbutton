@@ -1,7 +1,12 @@
-body {background:#333; color:#fff; font-size:62.5%; margin:0; padding:0;}
+body {background:#333; color:#fff; font-family:Georgia, serif; font-size:62.5%; margin:0; padding:0;}
 
-#container {margin:0 auto; width:80em}
+#container {margin:0 auto; padding:5em 0 0 0; width:80em}
 
-#status_display {padding:2em; text-align:center;}
-#status_display.open {}
-#status_display.closed {}
+#status_display {padding:2em; text-align:center; border-radius:1em; -moz-border-radius:1em;}
+#status_display.open {background:#9c3; border:0.1em solid #690;}
+#status_display.closed {background:#AB0C00; border:0.1em solid #890900;}
+#status_display p {font-size:2em; font-style:italic; line-height:0.5em; text-shadow:1px 1px 1px #999;}
+#status_display p.status {font-size:5em; font-family:"Lucida Grande", Helvetica, Arial, sans-serif; font-style:normal; letter-spacing:0.1em; line-height:0.2em; text-shadow:1px 1px 1px #666;}
+
+#status_switch p {text-align:center;}
+#status_switch input {font-size:2.5em;}

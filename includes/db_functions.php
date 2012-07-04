@@ -33,4 +33,16 @@ function is_coworking_open()
 	return $override[0];
 }
 
+# Toggle coworking open and closed using an override override switch.
+function toggle_coworking()
+{
+	$open_coworking = 0;
+	
+	if (!is_coworking_open())
+	{
+		$open_coworking = 1;
+	}
+	
+	return mysql_query("UPDATE status SET active = $open_coworking WHERE name = 'front_switch'");
+}
 ?>

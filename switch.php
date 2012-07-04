@@ -10,11 +10,11 @@ db_connect();
 	
 	<link rel="stylesheet" type="text/css" href="main.css" />
 	
-	<title>Fruitworks Coworking Status Display</title>
+	<title>Fruitworks Coworking Status Switch</title>
 </head>
 <body>
 	<div id="container">
-		<?php include("includes/status_display.php"); ?>
+		<?php include("includes/status_switch.php"); ?>
 	</div>
 </body>
 </html>
