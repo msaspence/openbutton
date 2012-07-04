@@ -31,7 +31,7 @@ function is_status_active($name)
 		$time = time();
 		$expires = strtotime($result["expires"]);
 		
-		return (($time - $expires) > 0);
+		return (($time - $expires) < 0);
 	}
 	
 	return $result;
@@ -49,7 +49,7 @@ function get_users_online()
 	{
 		$expires = strtotime($data["expire"]);
 		
-		if (($time - $expires) > 0)
+		if (($time - $expires) < 0)
 		{
 			$users[] = $data;
 		}

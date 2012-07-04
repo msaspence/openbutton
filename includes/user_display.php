@@ -6,7 +6,7 @@ $user_data = get_users_online();
 foreach($user_data as $user)
 {
 ?>
-	<li><?php echo($user["name"]); ?> (<?php echo($user["active"])?>)</li>
+	<li><?php echo($user["name"]); ?> (<?php echo($user["active"])?> - <?php echo($user["expire"])?>)</li>
 <?php	
 }
 ?>
