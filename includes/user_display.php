@@ -7,7 +7,7 @@
 foreach($user_data as $user)
 {
 ?>
-		<li><?php echo($user["name"]); ?> (<?php echo($user["active"])?> - <?php echo($user["expire"])?>)</li>
+		<li><?php echo($user["name"]); ?> (<span class="dates"><?php echo($user["active"])?> - <?php echo($user["expire"])?></span>)</li>
 <?php	
 }
 ?>
