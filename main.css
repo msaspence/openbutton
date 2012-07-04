@@ -1,0 +1,7 @@
+body {background:#333; color:#fff; font-size:62.5%; margin:0; padding:0;}
+
+#container {margin:0 auto; width:80em}
+
+#status_display {padding:2em; text-align:center;}
+#status_display.open {}
+#status_display.closed {}
