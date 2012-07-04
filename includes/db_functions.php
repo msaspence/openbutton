@@ -37,6 +37,20 @@ function is_status_active($name)
 	return $result;
 }
 
+# Get a list of all the users.
+function get_users()
+{
+	$result = mysql_query("SELECT * FROM status");
+	$users = array();
+	
+	while ($data = mysql_fetch_assoc($result))
+	{
+		$users[] = $data;
+	}
+	
+	return $users;
+}
+
 # Get a list of the current users online.
 function get_users_online()
 {

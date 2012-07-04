@@ -1,6 +1,10 @@
 body {background:#333 url(img/bg.jpg) no-repeat 50% top; color:#fff; font-family:Georgia, serif; font-size:62.5%; margin:0; padding:0;}
 
-#container {background-color:#000; background-color: rgba(0, 0, 0, 0.7); margin:0 auto; padding:5em 2em 2em 2em; width:80em}
+br.clear {clear:both; display:block; line-height:0; height:0; margin:0; padding:0;}
+
+#container {margin:2em auto 0 auto; width:80em}
+
+.ui_container {background-color:#000; background-color: rgba(0, 0, 0, 0.7); margin:0 0 2em 0; padding:2em; border-radius:1em; -moz-border-radius:1em;}
 
 #status_display {padding:2em; text-align:center; border-radius:1em; -moz-border-radius:1em;}
 #status_display.open {background:#9c3; border:0.1em solid #690;}
@@ -8,11 +12,13 @@ body {background:#333 url(img/bg.jpg) no-repeat 50% top; color:#fff; font-family
 #status_display p {font-size:2em; font-style:italic; line-height:0.5em; text-shadow:1px 1px 1px #333;}
 #status_display p.status {font-size:5em; font-family:"Lucida Grande", Helvetica, Arial, sans-serif; font-style:normal; letter-spacing:0.1em; line-height:0.2em; text-shadow:1px 1px 1px #666;}
 
-h2 {font-size:2.5em; font-weight:normal; text-align:center}
+h2 {font-size:2.5em; font-family:"Lucida Grande", Helvetica, Arial, sans-serif; font-weight:normal; margin:0; padding:0; text-align:center}
 #user_display {list-style:none; margin:0; padding:0 0 1em 0;}
 #user_display li {font-size:1.5em; text-align:center;}
 
 #switch_buttons p {text-align:center;}
+#switch_buttons input.fade {opacity:0.5;}
+#switch_buttons select {font-size:2em;}
 #switch_buttons input[type="submit"] 
 {
 	background-image: linear-gradient(bottom, rgb(173,173,173) 16%, rgb(227,227,227) 53%);
@@ -21,8 +27,9 @@ h2 {font-size:2.5em; font-weight:normal; text-align:center}
 	background-image: -webkit-linear-gradient(bottom, rgb(173,173,173) 16%, rgb(227,227,227) 53%);
 	background-image: -ms-linear-gradient(bottom, rgb(173,173,173) 16%, rgb(227,227,227) 53%);
 	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.16, rgb(173,173,173)), color-stop(0.53, rgb(227,227,227)));
-	border:0.1em solid #000; color:#000; font-size:1.5em; font-weight:bold; padding:0.3em 1em; border-radius:0.5em; -moz-border-radius:0.5em;
+	border:0.1em solid #000; color:#000; font-size:1.4em; font-weight:bold; padding:0.2em 0.7em; border-radius:0.5em; -moz-border-radius:0.5em;
 }
+
 #switch_buttons input[type="submit"]:hover 
 {
 	background-image: linear-gradient(bottom, rgb(143,192,219) 16%, rgb(245,245,245) 53%);
