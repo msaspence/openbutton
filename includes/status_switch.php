@@ -32,17 +32,13 @@ include("includes/status_display.php");
 include("includes/user_display.php");
 
 ?>
-<form class="switch_button" action="<?php echo($_SERVER['PHP_SELF']);?>" method="post">
+<form id="switch_buttons" action="<?php echo($_SERVER['PHP_SELF']);?>" method="post">
 	<p>
 		<input type="submit" name="close_coworking" value="Close Coworking" />
 	</p>
-</form>
-<form class="switch_button" action="<?php echo($_SERVER['PHP_SELF']);?>" method="post">
 	<p>
 		<input type="submit" name="open_coworking" value="Open Coworking" />
 	</p>
-</form>
-<form class="switch_button" action="<?php echo($_SERVER['PHP_SELF']);?>" method="post">
 	<p>
 		<input type="submit" name="override_toggle" value="<?php echo $override_active? "Turn override off": "Turn override on";?>" />
 	</p>

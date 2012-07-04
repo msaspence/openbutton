@@ -6,7 +6,12 @@ db_connect();
 if (isset($_GET["set_active"]))
 {
 	$name = mysql_real_escape_string($_GET["set_active"]);
-	update_status($name);
+	$updated = update_status($name, time()+600);
+	
+	$data = array("name" => $name, "updated" => $updated);
+	
+	header('Content-Type: text/javascript');
+	echo(json_encode($data));
 }
 
 # Show the current status, json encoded.
@@ -24,6 +29,7 @@ else if (isset($_GET["current_status"]))
 		"override_open" => $override_status
 	);
 	
-	echo json_encode($data);
-}
+	header('Content-Type: text/javascript');
+	echo(json_encode($data));
+} 
 ?>

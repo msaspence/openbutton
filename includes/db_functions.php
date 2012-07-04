@@ -29,9 +29,9 @@ function is_status_active($name)
 	if ($result)
 	{
 		$time = time();
-		$last_active = strtotime($result["active"]);
+		$expires = strtotime($result["expires"]);
 		
-		return (($time - $last_active) < 600);
+		return (($time - $expires) > 0);
 	}
 	
 	return $result;
@@ -47,11 +47,11 @@ function get_users_online()
 	
 	while ($data = mysql_fetch_assoc($result))
 	{
-		$last_active = strtotime($data["active"]);
+		$expires = strtotime($data["expire"]);
 		
-		if (($time - $last_active) < 600)
+		if (($time - $expires) > 0)
 		{
-			$users[] = $data["name"];
+			$users[] = $data;
 		}
 	}
 	
@@ -109,15 +109,16 @@ function status_exists($name)
 	return $result[0];
 }
 
-# Update a status with a given name
-function update_status($name)
+# Update a status with a given name with a date to expire at
+function update_status($name, $expire_at)
 {
 	if (status_exists($name))
 	{
-		$date = date("Y-m-d H:i:s", time());
-		return mysql_query("UPDATE status SET active = '$date' WHERE name = '$name'");
+		$active = date("Y-m-d H:i:s", time());
+		$expires = date("Y-m-d H:i:s", $expire_at);
+		return mysql_query("UPDATE status SET active = '$active', expire = '$expires' WHERE name = '$name'");
 	}
-	
+		
 	return false;
 }
 
