@@ -4,15 +4,33 @@ function db_connect()
 {
 	$link = mysql_connect('localhost', 'root', 'root');
 	
+	
+	if ($link)
+	{
+		$link = mysql_select_db("coworking_status");
+	}
+	
+	if (!$link)
+	{
+		die('Could not connect: ' . mysql_error());
+	}
+	
 	return $link;
 }
 
-# Check is fruitworks coworking open
+# Check is fruitworks coworking open. First check whether any "overrides" are in effect, then the
+# statuses of others.
 function is_coworking_open()
-{
-	$override_status  = mysql_query("SELECT count(status) FROM status WHERE name = 'switch' AND override = 1");
+{ 
+	$override = mysql_fetch_array(mysql_query("SELECT count(status_id) FROM status WHERE active = 1 AND override = 1"));
+		
+	if (!$override[0])
+	{
+		$individuals = mysql_fetch_array(mysql_query("SELECT count(status_id) FROM status WHERE active = 1 AND override = 0"));
+		return $individuals[0];
+	}
 	
-	$result_status = mysql_query("SELECT count(status) FROM status WHERE status = 'active' AND override = 0");	
+	return $override[0];
 }
 
 ?>
