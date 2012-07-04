@@ -1,4 +1,6 @@
 <?php
+$active_timeout_mins = 10;
+
 # Connect to the database
 function db_connect()
 {
@@ -18,17 +20,54 @@ function db_connect()
 	return $link;
 }
 
-# Check is fruitworks coworking open. First check whether any "overrides" are in effect, then the
-# statuses of others.
+# Check whether a status is active or not.
+function is_status_active($name)
+{
+	
+	$result = mysql_fetch_array(mysql_query("SELECT * FROM status WHERE name = '$name'"));
+	
+	if ($result)
+	{
+		$time = time();
+		$last_active = strtotime($result["active"]);
+		
+		return (($time - $last_active) < 600);
+	}
+	
+	return $result;
+}
+
+# Get a list of the current users online.
+function get_users_online()
+{
+	$time = time();
+	
+	$users = array();
+	$result = mysql_query("SELECT * FROM status");
+	
+	while ($data = mysql_fetch_assoc($result))
+	{
+		$last_active = strtotime($data["active"]);
+		
+		if (($time - $last_active) < 600)
+		{
+			$users[] = $data["name"];
+		}
+	}
+	
+	return $users;
+}
+
+# Check is coworking open. First check whether any "overrides" are in effect, then the
+# statuses of users.
 function is_coworking_open()
 { 
 	$override = mysql_fetch_array(mysql_query("SELECT is_open, active FROM override WHERE active = 1 AND override_id = 1"));
 		
 	if (!$override[1])
 	{
-		$individuals = mysql_fetch_array(mysql_query("SELECT count(status_id) FROM status WHERE active = 1"));
-		
-		return $individuals[0];
+		$users = get_users_online();
+		return sizeof($users);
 	}
 	
 	return $override[0];
@@ -48,25 +87,20 @@ function set_override_active($active)
 	return mysql_query("UPDATE override SET active = $active WHERE override_id = 1");
 }
 
+# Check override either open or closed.
+function check_override_status()
+{	
+	$result =  mysql_fetch_array(mysql_query("SELECT is_open FROM override WHERE override_id = 1"));
+	
+	return $result[0];
+}
+
 # Set override either open or closed.
 function set_override_status($status)
 {	
 	return mysql_query("UPDATE override SET is_open = $status WHERE override_id = 1");
 }
 
-# Get a list of the current users online.
-function get_users_online()
-{
-	$users = array();
-	$result = mysql_query("SELECT name FROM status WHERE active = 1");
-	
-	while ($data = mysql_fetch_assoc($result))
-	{
-		$users[] = $data["name"];
-	}
-	
-	return $users;
-}
 
 # Check a status with a given name exists.
 function status_exists($name)
@@ -76,11 +110,12 @@ function status_exists($name)
 }
 
 # Update a status with a given name
-function update_status($name, $status)
+function update_status($name)
 {
 	if (status_exists($name))
 	{
-		return mysql_query("UPDATE status SET active = $status WHERE name = '$name'");
+		$date = date("Y-m-d H:i:s", time());
+		return mysql_query("UPDATE status SET active = '$date' WHERE name = '$name'");
 	}
 	
 	return false;

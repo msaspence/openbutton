@@ -30,6 +30,7 @@ else if (isset($_POST["close_coworking"]))
 
 include("includes/status_display.php");
 include("includes/user_display.php");
+
 ?>
 <form class="switch_button" action="<?php echo($_SERVER['PHP_SELF']);?>" method="post">
 	<p>
