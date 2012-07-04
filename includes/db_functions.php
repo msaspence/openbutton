@@ -22,27 +22,68 @@ function db_connect()
 # statuses of others.
 function is_coworking_open()
 { 
-	$override = mysql_fetch_array(mysql_query("SELECT count(status_id) FROM status WHERE active = 1 AND override = 1"));
+	$override = mysql_fetch_array(mysql_query("SELECT is_open, active FROM override WHERE active = 1 AND override_id = 1"));
 		
-	if (!$override[0])
+	if (!$override[1])
 	{
-		$individuals = mysql_fetch_array(mysql_query("SELECT count(status_id) FROM status WHERE active = 1 AND override = 0"));
+		$individuals = mysql_fetch_array(mysql_query("SELECT count(status_id) FROM status WHERE active = 1"));
+		
 		return $individuals[0];
 	}
 	
 	return $override[0];
 }
 
-# Toggle coworking open and closed using an override override switch.
-function toggle_coworking()
+# Check whether the override is in effect.
+function check_override_active()
 {
-	$open_coworking = 0;
+	$result =  mysql_fetch_array(mysql_query("SELECT active FROM override WHERE override_id = 1"));
 	
-	if (!is_coworking_open())
+	return $result[0];
+}
+
+# Turn on/off the override.
+function set_override_active($active)
+{	
+	return mysql_query("UPDATE override SET active = $active WHERE override_id = 1");
+}
+
+# Set override either open or closed.
+function set_override_status($status)
+{	
+	return mysql_query("UPDATE override SET is_open = $status WHERE override_id = 1");
+}
+
+# Get a list of the current users online.
+function get_users_online()
+{
+	$users = array();
+	$result = mysql_query("SELECT name FROM status WHERE active = 1");
+	
+	while ($data = mysql_fetch_assoc($result))
 	{
-		$open_coworking = 1;
+		$users[] = $data["name"];
 	}
 	
-	return mysql_query("UPDATE status SET active = $open_coworking WHERE name = 'front_switch'");
+	return $users;
 }
+
+# Check a status with a given name exists.
+function status_exists($name)
+{
+	$result = mysql_fetch_array(mysql_query("SELECT count(status_id) FROM status WHERE name = '$name'"));
+	return $result[0];
+}
+
+# Update a status with a given name
+function update_status($name, $status)
+{
+	if (status_exists($name))
+	{
+		return mysql_query("UPDATE status SET active = $status WHERE name = '$name'");
+	}
+	
+	return false;
+}
+
 ?>
